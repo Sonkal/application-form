@@ -13,6 +13,10 @@ export class AppFormComponent implements OnInit {
     address: "",
     email: "",
     personalId: "",
+    phone:null,
+    phoneMother:null,
+    phoneFather:null,
+    subscribe:false
   };
   constructor() { }
 
@@ -21,5 +25,8 @@ export class AppFormComponent implements OnInit {
 
   onSubmit(){
     console.log("Submit");
+  }
+  clearForm(){
+    console.log("Clear");
   }
 }
