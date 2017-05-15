@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AppService} from "../service/app-service";
+import {Application} from "@sonkal/application-type"
 
 @Component({
   selector: 'app-form',
@@ -7,24 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppFormComponent implements OnInit {
 
-  model = {
-    firstName: "",
-    lastName: "",
-    address: "",
-    email: "",
-    personalId: "",
-    phone:null,
-    phoneMother:null,
-    phoneFather:null,
-    subscribe:false
+  model:Application = {
+    firstName: "a",
+    lastName: "a",
+    address: "a",
+    email: "a",
+    personalId: "a",
+    phone:"1",
+    phoneMother:"1",
+    phoneFather:"1",
+    subscribe:true
   };
-  constructor() { }
+  constructor(private appService:AppService) { }
 
   ngOnInit() {
   }
 
   onSubmit(){
     console.log("Submit");
+    this.appService.createApplication(this.model).then((data)=>{
+      console.log("Saved:"+data);
+    });
   }
   clearForm(){
     console.log("Clear");
