@@ -6,18 +6,20 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppFormComponent } from './form/app-form.component';
 import {AppService} from "./service/app-service";
+import { ValidatePersonalId } from './form/validate.personal.id';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppFormComponent
+    AppFormComponent,
+    ValidatePersonalId
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [AppService],
+  providers: [AppService, ValidatePersonalId],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
