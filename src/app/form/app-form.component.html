@@ -8,58 +8,52 @@
                [(ngModel)]="model.firstName" required
                #firstName="ngModel">
       </div>
-      <div [hidden]="firstName.valid || firstName.pristine"
-           class="alert alert-danger small">
-        Jméno je povinné
-      </div>
+      <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger small">Jméno je povinné</div>
     </div>
     <div class="col-xs-6">
       <label for="lastName">Příjmení:</label>
       <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
         <input id="lastName" name="lastName" class="form-control input-sm" type="text" [(ngModel)]="model.lastName"
                required
                #lastName="ngModel">
       </div>
-      <div [hidden]="lastName.valid || lastName.pristine"
-           class="alert alert-danger small">
-        Příjmení je povinné
-      </div>
+      <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger small">Příjmení je povinné</div>
     </div>
   </div>
   <div class="form-group row">
     <div class="col-xs-5">
       <label for="street">Ulice:</label>
-      <input id="street" name="address" class="form-control input-sm" type="text" [(ngModel)]="model.address.street"
-             required
-             placeholder="Ulice"
-             #street="ngModel">
-      <div [hidden]="street.valid || street.pristine"
-           class="alert alert-danger small">
-        Ulice je povinná
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+        <input id="street" name="address" class="form-control input-sm" type="text" [(ngModel)]="model.address.street"
+               required
+               placeholder="Ulice"
+               #street="ngModel">
       </div>
+      <div [hidden]="street.valid || street.pristine" class="alert alert-danger small">Ulice je povinná</div>
     </div>
     <div class="col-xs-5">
       <label for="city">Obec:</label>
-      <input id="city" name="city" class="form-control input-sm" type="text" [(ngModel)]="model.address.city"
-             required
-             placeholder="Obec"
-             #city="ngModel">
-      <div [hidden]="city.valid || city.pristine"
-           class="alert alert-danger small">
-        Obec je povinná
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+        <input id="city" name="city" class="form-control input-sm" type="text" [(ngModel)]="model.address.city"
+               required
+               placeholder="Obec"
+               #city="ngModel">
       </div>
+      <div [hidden]="city.valid || city.pristine" class="alert alert-danger small">Obec je povinná</div>
     </div>
     <div class="col-xs-2">
       <label for="post">PSČ:</label>
-      <input id="post" name="post" class="form-control input-sm" type="text" [(ngModel)]="model.address.postCode"
-             required maxlength="5" minlength="5" size="5" pattern="[0-9]{5}"
-             placeholder="PSČ"
-             #post="ngModel">
-      <div [hidden]="post.valid || post.pristine"
-           class="alert alert-danger small">
-        PSČ je povinná
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+        <input id="post" name="post" class="form-control input-sm" type="text" [(ngModel)]="model.address.postCode"
+               required maxlength="5" minlength="5" size="5" pattern="[0-9]{5}"
+               placeholder="PSČ"
+               #post="ngModel">
       </div>
+      <div [hidden]="post.valid || post.pristine" class="alert alert-danger small">Povinné</div>
     </div>
   </div>
   <div class="form-group row" style="min-width: 13em;">
@@ -78,10 +72,7 @@
            class="alert alert-danger small">
         Povinné validní rodné číslo (6 číslic před a 4 za lomítkem)
       </div>
-      <div [hidden]="!personalId.hasError('notValid')"
-           class="alert alert-danger small">
-        Nevalidní rodné číslo
-      </div>
+      <div [hidden]="!personalId.hasError('notValid')" class="alert alert-danger small">Nevalidní rodné číslo</div>
     </div>
     <div class="col-xs-8">
       <label for="email">Email:</label>
@@ -91,10 +82,7 @@
                required
                #email="ngModel">
       </div>
-      <div [hidden]="email.valid || email.pristine"
-           class="alert alert-danger small">
-        E-mail je povinný
-      </div>
+      <div [hidden]="email.valid || email.pristine" class="alert alert-danger small">E-mail je povinný</div>
     </div>
   </div>
   <div class="form-group row">
@@ -106,10 +94,7 @@
                [(ngModel)]="model.phone" required
                #phone="ngModel">
       </div>
-      <div [hidden]="phone.valid || phone.pristine"
-           class="alert alert-danger small">
-        Kontaktní telefon je povinný
-      </div>
+      <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger small">Kontaktní telefon je povinný</div>
     </div>
     <div class="col-xs-4">
       <label for="phoneMother">Telefon otec:</label>
