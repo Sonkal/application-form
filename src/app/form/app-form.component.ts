@@ -5,30 +5,25 @@ import {Application} from "@sonkal/application-type"
 class AppModel implements Application{
   firstName: string;
   lastName: string;
-  address: string;
+  address: {
+    street: string,
+    city: string,
+    postCode: string,
+  };
   email: string;
   phone: string;
+  personalId: string;
   phoneMother: string;
   phoneFather: string;
   subscribe: boolean;
   id?: string | number;
 
-  private persBefore: string;
-  private persAfter: string;
-
   constructor(object:any){
     Object.assign(this,object);
   }
-
-  set personalId(val:string){
-    this.persBefore = val.split("/")[0];
-    this.persAfter = val.split("/")[1];
+  setPersonalId(before:string, after:string){
+    this.personalId = before+"/"+after;
   }
-
-  get personalId():string{
-    return this.persBefore+"/"+this.persAfter;
-  }
-
 }
 
 @Component({
@@ -38,10 +33,11 @@ class AppModel implements Application{
 })
 export class AppFormComponent implements OnInit {
 
+  //ToDo: remove silly initial values
   model = new AppModel({
     firstName: "a",
     lastName: "a",
-    address: "a",
+    address: {street:null, city:"a",postCode:"a"},
     email: "a",
     personalId: "a",
     phone:"1",
@@ -59,6 +55,7 @@ export class AppFormComponent implements OnInit {
 
   onSubmit(){
     console.log("Submit");
+    this.model.setPersonalId(this.personalIdGroup.before,this.personalIdGroup.after);
     this.appService.createApplication(this.model).then((data)=>{
       console.log("Saved:"+data);
     });

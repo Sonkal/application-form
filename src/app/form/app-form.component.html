@@ -28,27 +28,51 @@
     </div>
   </div>
   <div class="form-group row">
-    <div class="col-xs-12">
-      <label for="address">Adresa:</label>
-      <input id="address" name="address" class="form-control input-sm" type="text" [(ngModel)]="model.address"
+    <div class="col-xs-5">
+      <label for="street">Ulice:</label>
+      <input id="street" name="address" class="form-control input-sm" type="text" [(ngModel)]="model.address.street"
              required
-             #address="ngModel">
-      <div [hidden]="address.valid || address.pristine"
+             placeholder="Ulice"
+             #street="ngModel">
+      <div [hidden]="street.valid || street.pristine"
            class="alert alert-danger small">
-        Adresa je povinná
+        Ulice je povinná
+      </div>
+    </div>
+    <div class="col-xs-5">
+      <label for="city">Obec:</label>
+      <input id="city" name="city" class="form-control input-sm" type="text" [(ngModel)]="model.address.city"
+             required
+             placeholder="Obec"
+             #city="ngModel">
+      <div [hidden]="city.valid || city.pristine"
+           class="alert alert-danger small">
+        Obec je povinná
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <label for="post">PSČ:</label>
+      <input id="post" name="post" class="form-control input-sm" type="text" [(ngModel)]="model.address.postCode"
+             required maxlength="5" minlength="5" size="5" pattern="[0-9]{5}"
+             placeholder="PSČ"
+             #post="ngModel">
+      <div [hidden]="post.valid || post.pristine"
+           class="alert alert-danger small">
+        PSČ je povinná
       </div>
     </div>
   </div>
   <div class="form-group row" style="min-width: 13em;">
     <div class="col-xs-4">
       <label for="pIdBefore">Rodné číslo:</label>
-      <div class="input-group" ngModelGroup="personalIdGroup" validate-pid  #personalId="ngModelGroup">
-          <input id="pIdBefore" name="pIdBefore" class="form-control input-sm" type="text" pattern="[0-9]{6}"
-                 style="text-align: right;"
-                 [(ngModel)]="personalIdGroup.before" required maxlength="6" minlength="6" size="6">
-          <span class="input-group-addon">/</span>
-          <input id="pIdAfter" name="pIdAfter" class="form-control input-sm" type="text" pattern="[0-9]{4}"
-                 [(ngModel)]="personalIdGroup.after" required maxlength="4" minlength="4" size="4">
+      <div class="input-group" ngModelGroup="personalIdGroup" validate-pid #personalId="ngModelGroup">
+        <input id="pIdBefore" name="pIdBefore" class="form-control input-sm" type="text"
+               style="text-align: right;"
+               [(ngModel)]="personalIdGroup.before"
+               required maxlength="6" minlength="6" size="6" pattern="[0-9]{6}">
+        <span class="input-group-addon">/</span>
+        <input id="pIdAfter" name="pIdAfter" class="form-control input-sm" type="text" pattern="[0-9]{4}"
+               [(ngModel)]="personalIdGroup.after" required maxlength="4" minlength="4" size="4">
       </div>
       <div [hidden]="personalId.valid || personalId.pristine || personalId.hasError('notValid')"
            class="alert alert-danger small">
