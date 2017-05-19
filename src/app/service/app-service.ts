@@ -5,8 +5,12 @@ import {Application} from "@sonkal/application-type"
 
 //ToDO: this should be part of service or commons
 export interface AppResponse {
-  info: string,
-  data, any
+  statusCode: number,
+  errorId: number,
+  data: {
+    info: string,
+    data: any
+  }
 }
 
 
@@ -24,10 +28,14 @@ export class AppService {
     return this.http.post(url, app).toPromise()
       .then((response) => {
         let resp = (<AppResponse>response.json());
-        let app = <Application>resp.data;
+        let code = resp.statusCode;
+        if (code >= 300) {
+          AppService.handleError(resp.data);
+        }
+        let app = <Application>resp.data.data;
         return app.id;
       })
-      .catch<string>(this.handleError);
+      .catch<string>(AppService.handleError);
   }
 
   listApplications(): Promise<Application[]> {
@@ -38,11 +46,17 @@ export class AppService {
         let resp = <AppResponse>response.json();
         return resp.data;
       })
-      .catch(this.handleError);
+      .catch(AppService.handleError);
   }
 
-  handleError(error:any): any {
-    //ToDo: how to handle errors
-    return error;
+  static handleError(error: any): any {
+    console.error(error);
+    let errorId = AppService.generateErrorId();
+    console.error("Error ID: "+errorId);
+    throw new Error("Chyba "+errorId);
+  }
+
+  static generateErrorId() {
+    return Math.round((Math.pow(16, 16) - Math.random() * Math.pow(16, 16))).toString(16).slice(1);
   }
 }

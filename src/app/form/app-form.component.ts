@@ -37,16 +37,16 @@ export class AppFormComponent implements OnInit {
   model = new AppModel({
     firstName: "a",
     lastName: "a",
-    address: {street:null, city:"a",postCode:"a"},
+    address: {street:"a", city:"a",postCode:"11111"},
     email: "a",
-    personalId: "a",
+    personalId: "111111/1111",
     phone:"1",
     phoneMother:"1",
     phoneFather:"1",
     subscribe:true
   });
 
-  personalIdGroup = {before:"123", after:"123"};
+  personalIdGroup = {before:"111111", after:"1111"};
 
   constructor(private appService:AppService) { }
 
@@ -58,6 +58,8 @@ export class AppFormComponent implements OnInit {
     this.model.setPersonalId(this.personalIdGroup.before,this.personalIdGroup.after);
     this.appService.createApplication(this.model).then((data)=>{
       console.log("Saved:"+data);
+    }).catch((err)=>{
+      console.log("Save - caught error:"+err);
     });
   }
   clearForm(){
