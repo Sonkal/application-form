@@ -12,6 +12,7 @@ import { ErrorComponent } from './error/error.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationPageComponent } from './application-page/application-page.component';
 import {ErrorService} from "./error/error.service";
+import { SuccessComponent } from './success/success.component';
 
 const appRoutes: Routes = [
   { path: '', component: ApplicationPageComponent },
@@ -20,6 +21,11 @@ const appRoutes: Routes = [
     pathMatch: 'prefix',
     component: ErrorComponent
   },
+  {
+    path: 'success',
+    pathMatch: 'prefix',
+    component: SuccessComponent
+  }
 //ToDo: PNF  { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -29,7 +35,8 @@ const appRoutes: Routes = [
     AppFormComponent,
     ValidatePersonalId,
     ErrorComponent,
-    ApplicationPageComponent
+    ApplicationPageComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,

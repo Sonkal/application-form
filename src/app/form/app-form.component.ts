@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AppService} from "../service/app-service";
 import {Application} from "@sonkal/application-type"
+import {Router} from "@angular/router";
 
 class AppModel implements Application{
   firstName: string;
@@ -48,7 +49,7 @@ export class AppFormComponent implements OnInit {
 
   personalIdGroup = {before:"111111", after:"1111"};
 
-  constructor(private appService:AppService) { }
+  constructor(private appService:AppService, private router:Router) { }
 
   ngOnInit() {
   }
@@ -58,6 +59,7 @@ export class AppFormComponent implements OnInit {
     this.model.setPersonalId(this.personalIdGroup.before,this.personalIdGroup.after);
     this.appService.createApplication(this.model).then((data)=>{
       console.log("Saved:"+data);
+      this.router.navigate(["success"]);
     }).catch((err)=>{
       console.log("Save - caught error:"+err);
       throw err;
