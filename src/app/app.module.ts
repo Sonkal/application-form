@@ -11,6 +11,7 @@ import {AppErrorHandler} from "./error/error-handler";
 import { ErrorComponent } from './error/error.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationPageComponent } from './application-page/application-page.component';
+import {ErrorService} from "./error/error.service";
 
 const appRoutes: Routes = [
   { path: '', component: ApplicationPageComponent },
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AppService, ValidatePersonalId, {provide: ErrorHandler, useClass: AppErrorHandler}],
+  providers: [AppService, ValidatePersonalId,
+    {provide: ErrorHandler, useClass: AppErrorHandler}, ErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

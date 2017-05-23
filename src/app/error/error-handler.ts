@@ -1,12 +1,13 @@
 import {ErrorHandler, Injectable, Injector, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {AppError} from "../service/app-service";
+import {ErrorService} from "./error.service";
 
 
 @Injectable()
 export class AppErrorHandler implements ErrorHandler, OnInit {
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private es:ErrorService) {
   }
 
 
@@ -17,11 +18,16 @@ export class AppErrorHandler implements ErrorHandler, OnInit {
   handleError(error) {
     console.log("handling error" + error);
     let router = this.injector.get(Router);
-    let extras;
-    if (error instanceof AppError){
-      let er = <AppError>error;
-      extras = {queryParams: {id: er.id, m: er.message}};
+    if (error.rejection && error.rejection instanceof AppError) {
+      let er = <AppError>(error.rejection);
+      this.es.error = er;
+    } else {
+      console.error("Missing logic for error:"+error);
+      console.error(error);
     }
-    router.navigate(["error"], extras);
+    //Without this hack, it does not work :-(
+    setTimeout(() => {
+      router.navigate(["error"]);
+    });
   }
 }
