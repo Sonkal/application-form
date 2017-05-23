@@ -9,18 +9,32 @@ import {AppService} from "./service/app-service";
 import { ValidatePersonalId } from './form/validate.personal.id';
 import {AppErrorHandler} from "./error/error-handler";
 import { ErrorComponent } from './error/error.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ApplicationPageComponent } from './application-page/application-page.component';
+
+const appRoutes: Routes = [
+  { path: '', component: ApplicationPageComponent },
+  {
+    path: 'error',
+    pathMatch: 'prefix',
+    component: ErrorComponent
+  },
+//ToDo: PNF  { path: '**', component: PageNotFoundComponent }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     AppFormComponent,
     ValidatePersonalId,
-    ErrorComponent
+    ErrorComponent,
+    ApplicationPageComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [AppService, ValidatePersonalId, {provide: ErrorHandler, useClass: AppErrorHandler}],
   bootstrap: [AppComponent]

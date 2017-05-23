@@ -13,6 +13,12 @@ export interface AppResponse {
   }
 }
 
+export class AppError extends Error {
+  constructor(public id, public message) {
+    super(message);
+    (<any>this).__proto__ = AppError.prototype;
+  }
+}
 
 @Injectable()
 export class AppService {
@@ -52,8 +58,8 @@ export class AppService {
   static handleError(error: any): any {
     console.error(error);
     let errorId = AppService.generateErrorId();
-    console.error("Error ID: "+errorId);
-    throw new Error("Chyba "+errorId);
+    console.error("Error ID: " + errorId);
+    throw new AppError(errorId, error.message);
   }
 
   static generateErrorId() {

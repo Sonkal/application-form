@@ -1,132 +1,153 @@
-<form (ngSubmit)="onSubmit()" #appForm="ngForm">
-  <div class="form-group row">
-    <div class="col-xs-6">
-      <label for="firstName">Jméno:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-        <input id="firstName" name="firstName" class="form-control input-sm" type="text"
-               [(ngModel)]="model.firstName" required
-               #firstName="ngModel">
+
+  <form (ngSubmit)="onSubmit()" #appForm="ngForm">
+    <div class="form-group row">
+      <div class="col-xs-6">
+        <label for="firstName">Jméno:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input id="firstName" name="firstName" class="form-control input-sm" type="text"
+                 [(ngModel)]="model.firstName" required
+                 #firstName="ngModel">
+        </div>
+        <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger small">Jméno je povinné</div>
       </div>
-      <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger small">Jméno je povinné</div>
-    </div>
-    <div class="col-xs-6">
-      <label for="lastName">Příjmení:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-        <input id="lastName" name="lastName" class="form-control input-sm" type="text" [(ngModel)]="model.lastName"
-               required
-               #lastName="ngModel">
+      <div class="col-xs-6">
+        <label for="lastName">Příjmení:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input id="lastName" name="lastName" class="form-control input-sm" type="text" [(ngModel)]="model.lastName"
+                 required
+                 #lastName="ngModel">
+        </div>
+        <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger small">Příjmení je povinné</div>
       </div>
-      <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger small">Příjmení je povinné</div>
     </div>
+    <div class="form-group row">
+      <div class="col-xs-5">
+        <label for="street">Ulice:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+          <input id="street" name="address" class="form-control input-sm" type="text" [(ngModel)]="model.address.street"
+                 required
+                 placeholder="Ulice"
+                 #street="ngModel">
+        </div>
+        <div [hidden]="street.valid || street.pristine" class="alert alert-danger small">Ulice je povinná</div>
+      </div>
+      <div class="col-xs-5">
+        <label for="city">Obec:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+          <input id="city" name="city" class="form-control input-sm" type="text" [(ngModel)]="model.address.city"
+                 required
+                 placeholder="Obec"
+                 #city="ngModel">
+        </div>
+        <div [hidden]="city.valid || city.pristine" class="alert alert-danger small">Obec je povinná</div>
+      </div>
+      <div class="col-xs-2">
+        <label for="post">PSČ:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+          <input id="post" name="post" class="form-control input-sm" type="text" [(ngModel)]="model.address.postCode"
+                 required maxlength="5" minlength="5" size="5" pattern="[0-9]{5}"
+                 placeholder="PSČ"
+                 #post="ngModel">
+        </div>
+        <div [hidden]="post.valid || post.pristine" class="alert alert-danger small">Povinné</div>
+      </div>
+    </div>
+    <div class="form-group row" style="min-width: 13em;">
+      <div class="col-xs-4">
+        <label for="pIdBefore">Rodné číslo:</label>
+        <div class="input-group" ngModelGroup="personalIdGroup" validate-pid #personalId="ngModelGroup">
+          <input id="pIdBefore" name="pIdBefore" class="form-control input-sm" type="text"
+                 style="text-align: right;"
+                 [(ngModel)]="personalIdGroup.before"
+                 required maxlength="6" minlength="6" size="6" pattern="[0-9]{6}">
+          <span class="input-group-addon">/</span>
+          <input id="pIdAfter" name="pIdAfter" class="form-control input-sm" type="text" pattern="[0-9]{4}"
+                 [(ngModel)]="personalIdGroup.after" required maxlength="4" minlength="4" size="4">
+        </div>
+        <div [hidden]="personalId.valid || personalId.pristine || personalId.hasError('notValid')"
+             class="alert alert-danger small">
+          Povinné validní rodné číslo (6 číslic před a 4 za lomítkem)
+        </div>
+        <div [hidden]="!personalId.hasError('notValid')" class="alert alert-danger small">Nevalidní rodné číslo</div>
+      </div>
+      <div class="col-xs-8">
+        <label for="email">Email:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+          <input id="email" name="email" class="form-control input-sm" type="text" [(ngModel)]="model.email"
+                 required
+                 #email="ngModel">
+        </div>
+        <div [hidden]="email.valid || email.pristine" class="alert alert-danger small">E-mail je povinný</div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-4">
+        <label for="phone">Kontaktní telefon:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+          <input id="phone" name="phone" class="form-control input-sm" type="text"
+                 [(ngModel)]="model.phone" required
+                 #phone="ngModel">
+        </div>
+        <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger small">Kontaktní telefon je povinný</div>
+      </div>
+      <div class="col-xs-4">
+        <label for="phoneMother">Telefon otec:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+          <input id="phoneMother" name="phoneMother" class="form-control input-sm" type="text"
+                 [(ngModel)]="model.phoneMother" #phoneMother="ngModel">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <label for="phoneFather">Telefon matka:</label>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+          <input id="phoneFather" name="phoneFather" class="form-control input-sm" type="text"
+                 [(ngModel)]="model.phoneFather" #phoneFather="ngModel">
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-12">
+        <label class="checkbox-inline" for="subscribe">
+          <input id="subscribe" name="subscribe" type="checkbox"
+                 [(ngModel)]="model.subscribe" #subscribe="ngModel">
+          Přeji si zasílat informace, které souvisí s chodem oddílu a organizací společných akcí oddílu na kontaktní
+          email.
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-default btn-primary btn-xs" [disabled]="!appForm.form.valid">
+        Odeslat
+      </button>
+      <button type="button" class="btn btn-warning btn-xs" (click)="clearForm()">Vyčistit</button>
+    </div>
+  </form>
+
+  <div class="text-info">
+    <p>
+      Zavazujeme se, že uvedené údaje budou použity pro oddílovou evidenci a činnost s ní přímo související.
+      Bez písemného svolení nebudou osobní údaje poskytnuty třetí straně a bude s nimi nakládáno dle zákona č.
+      101/2000 Sb., o ochraně osobních údajů a o změně některých zákonů, ve znění pozdějších předpisů.
+    </p>
+    <p>
+      Prohlašuji, že jsem četl(-a) podmínky členství uvedené na zadní straně a souhlasím s nimi v plném
+      rozsahu. Dále čestně prohlašuji, že informace o mé osobě zde uvedené jsou pravdivé, a to stvrzuji svým
+      podpisem.
+    </p>
+    <p>
+      Prohlašuji, že na základě lékařského posouzení svého zdravotního stavu, jsem způsobilý absolvovat
+      fyzickou zátěž tréninků a soustředění v taekwon-do ITF bez nebezpečí poškození svého zdraví, a to
+      stvrzuji svým podpisem.
+    </p>
   </div>
-  <div class="form-group row">
-    <div class="col-xs-5">
-      <label for="street">Ulice:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-        <input id="street" name="address" class="form-control input-sm" type="text" [(ngModel)]="model.address.street"
-               required
-               placeholder="Ulice"
-               #street="ngModel">
-      </div>
-      <div [hidden]="street.valid || street.pristine" class="alert alert-danger small">Ulice je povinná</div>
-    </div>
-    <div class="col-xs-5">
-      <label for="city">Obec:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-        <input id="city" name="city" class="form-control input-sm" type="text" [(ngModel)]="model.address.city"
-               required
-               placeholder="Obec"
-               #city="ngModel">
-      </div>
-      <div [hidden]="city.valid || city.pristine" class="alert alert-danger small">Obec je povinná</div>
-    </div>
-    <div class="col-xs-2">
-      <label for="post">PSČ:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-        <input id="post" name="post" class="form-control input-sm" type="text" [(ngModel)]="model.address.postCode"
-               required maxlength="5" minlength="5" size="5" pattern="[0-9]{5}"
-               placeholder="PSČ"
-               #post="ngModel">
-      </div>
-      <div [hidden]="post.valid || post.pristine" class="alert alert-danger small">Povinné</div>
-    </div>
-  </div>
-  <div class="form-group row" style="min-width: 13em;">
-    <div class="col-xs-4">
-      <label for="pIdBefore">Rodné číslo:</label>
-      <div class="input-group" ngModelGroup="personalIdGroup" validate-pid #personalId="ngModelGroup">
-        <input id="pIdBefore" name="pIdBefore" class="form-control input-sm" type="text"
-               style="text-align: right;"
-               [(ngModel)]="personalIdGroup.before"
-               required maxlength="6" minlength="6" size="6" pattern="[0-9]{6}">
-        <span class="input-group-addon">/</span>
-        <input id="pIdAfter" name="pIdAfter" class="form-control input-sm" type="text" pattern="[0-9]{4}"
-               [(ngModel)]="personalIdGroup.after" required maxlength="4" minlength="4" size="4">
-      </div>
-      <div [hidden]="personalId.valid || personalId.pristine || personalId.hasError('notValid')"
-           class="alert alert-danger small">
-        Povinné validní rodné číslo (6 číslic před a 4 za lomítkem)
-      </div>
-      <div [hidden]="!personalId.hasError('notValid')" class="alert alert-danger small">Nevalidní rodné číslo</div>
-    </div>
-    <div class="col-xs-8">
-      <label for="email">Email:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-        <input id="email" name="email" class="form-control input-sm" type="text" [(ngModel)]="model.email"
-               required
-               #email="ngModel">
-      </div>
-      <div [hidden]="email.valid || email.pristine" class="alert alert-danger small">E-mail je povinný</div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-xs-4">
-      <label for="phone">Kontaktní telefon:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-        <input id="phone" name="phone" class="form-control input-sm" type="text"
-               [(ngModel)]="model.phone" required
-               #phone="ngModel">
-      </div>
-      <div [hidden]="phone.valid || phone.pristine" class="alert alert-danger small">Kontaktní telefon je povinný</div>
-    </div>
-    <div class="col-xs-4">
-      <label for="phoneMother">Telefon otec:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-        <input id="phoneMother" name="phoneMother" class="form-control input-sm" type="text"
-               [(ngModel)]="model.phoneMother" #phoneMother="ngModel">
-      </div>
-    </div>
-    <div class="col-xs-4">
-      <label for="phoneFather">Telefon matka:</label>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-        <input id="phoneFather" name="phoneFather" class="form-control input-sm" type="text"
-               [(ngModel)]="model.phoneFather" #phoneFather="ngModel">
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-xs-12">
-      <label class="checkbox-inline" for="subscribe">
-        <input id="subscribe" name="subscribe" type="checkbox"
-               [(ngModel)]="model.subscribe" #subscribe="ngModel">
-        Přeji si zasílat informace, které souvisí s chodem oddílu a organizací společných akcí oddílu na kontaktní
-        email.
-      </label>
-    </div>
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-default btn-primary btn-xs" [disabled]="!appForm.form.valid">
-      Odeslat
-    </button>
-    <button type="button" class="btn btn-warning btn-xs" (click)="clearForm()">Vyčistit</button>
-  </div>
-</form>
+
+

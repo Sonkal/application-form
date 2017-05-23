@@ -1,0 +1,26 @@
+<div class="col-xs-3">
+</div>
+<div class="col-xs-6">
+  <div class="header">
+    <h1>TAEKWON-DO ITF SONKAL PRAHA z.s.</h1>
+    <div>
+      Jiránkova 1137/1, 163 00 Praha 6<br/>
+      IČ: 68379391<br/>
+      Bankovní spojení Fio banka, č.ú. 189640131/2010
+    </div>
+  </div>
+  <div class="form">
+    <h1 class="text-center">
+      Přihláška do oddílu<br/>
+      Taekwon-do ITF Sonkal Praha
+    </h1>
+    <div class="panel">
+      <app-form></app-form>
+    </div>
+  </div>
+</div>
+<div class="col-xs-3">
+</div>
+<a routerLink="/error" routerLinkActive="active">Error</a>
+<a routerLink="/error" [queryParams]="{m:'sdf',id:123}" routerLinkActive="active">Error id+mes</a>
+<button (click)="navigate()">Navigate</button>

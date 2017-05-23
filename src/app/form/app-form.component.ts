@@ -60,6 +60,7 @@ export class AppFormComponent implements OnInit {
       console.log("Saved:"+data);
     }).catch((err)=>{
       console.log("Save - caught error:"+err);
+      throw err;
     });
   }
   clearForm(){

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from "@angular/router";
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-error',
@@ -7,11 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorComponent implements OnInit {
 
-  error:string;
+  errorId: string;
+  errorMessage: string;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private route: ActivatedRoute) {
   }
 
+  ngOnInit() {
+    console.log(this.route);
+    let self = this;
+    this.route.queryParams.subscribe((params: Params) => {
+      self.errorMessage = params['m'];
+      self.errorId = params['id'];
+      return self.errorMessage;
+    });
+  }
 }

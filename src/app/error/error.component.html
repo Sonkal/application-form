@@ -1,7 +1,6 @@
 <div class="container">
   <div class="jumbotron">
-    <h2><i class="fa fa-ban red"></i> Došlo k chybě</h2>
-    <p class="lead">{{error}}</p>
+    <h2><i class="fa fa-ban red"></i> Došlo k chybě {{errorId}}</h2>
   </div>
 </div>
 <div class="container">
@@ -10,12 +9,16 @@
       <div class="col-md-6">
         <h2>Co se stalo?</h2>
         <p class="lead">Nastala neočekávaná chyba.</p>
+        <p class="lead">{{errorMessage}}</p>
       </div>
       <div class="col-md-6">
-        <h2>Co dělat_</h2>
+        <h2>Co dělat?</h2>
         <p class="lead">Napište na sonkal@taekwondo.cz</p>
-        <p>Popi3te chybu a nezapomeňte uvést číslo chyby.</p>
+        <p [hidden]="!errorId">Popište chybu a nezapomeňte uvést číslo chyby.</p>
       </div>
     </div>
   </div>
+</div>
+<div class="container">
+  <a routerLink="/" routerLinkActive="active">Zpět na formulář prihlášky</a>
 </div>

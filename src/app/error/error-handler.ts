@@ -1,8 +1,27 @@
-import {ErrorHandler} from "@angular/core";
+import {ErrorHandler, Injectable, Injector, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
+import {AppError} from "../service/app-service";
 
 
-export class AppErrorHandler implements ErrorHandler {
+@Injectable()
+export class AppErrorHandler implements ErrorHandler, OnInit {
+
+  constructor(private injector: Injector) {
+  }
+
+
+  ngOnInit(): void {
+    console.log("Handler - init");
+  }
+
   handleError(error) {
-    // do something with the exception
+    console.log("handling error" + error);
+    let router = this.injector.get(Router);
+    let extras;
+    if (error instanceof AppError){
+      let er = <AppError>error;
+      extras = {queryParams: {id: er.id, m: er.message}};
+    }
+    router.navigate(["error"], extras);
   }
 }
