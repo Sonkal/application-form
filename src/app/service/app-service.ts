@@ -1,24 +1,18 @@
-import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
-import 'rxjs/add/operator/toPromise';
-import {Application} from "@sonkal/application-type"
+import {Injectable} from "@angular/core";
+import {Http} from "@angular/http";
+import "rxjs/add/operator/toPromise";
+import {Application} from "@sonkal/application-type";
 
 //ToDO: this should be part of service or commons
-export interface AppResponseData {
+export interface AppResponse {
   info: string,
   data: any
 }
 
 
-//ToDO: this should be part of service or commons
-export interface AppResponse {
-  statusCode: number,
-  errorId: number,
-  data: AppResponseData
-}
-
 export class AppError {
-  constructor(public id, public message?, public details?) {
+  appErrMark = true;
+  constructor(public id, public message?:string, public details?) {
   }
 }
 
@@ -33,17 +27,20 @@ export class AppService {
 
   createApplication(app: Application): Promise<string> {
     const url = `${this.serviceUrl}/`;
+    let reqId = AppService.generateErrorId();
+    console.log("Request " + reqId + " starting ....");
     return this.http.post(url, app).toPromise()
       .then((response) => {
-        let resp = (<AppResponse>response.json());
-        let code = resp.statusCode;
-        if (code >= 300) {
-          AppService.handleError(resp.data);
-        }
-        let app = <Application>resp.data.data;
-        return app.id;
+        let resp = <AppResponse>(response.json());
+        console.log("Then of " + reqId +" info: "+resp.info);
+        return resp.data._id;
       })
-      .catch<string>(AppService.handleError);
+      .catch<string>((err) => {
+        console.log("catch of " + reqId);
+        if (err instanceof AppError)
+          return Promise.reject(err);
+        return AppService.handleError(err);
+      });
   }
 
   listApplications(): Promise<Application[]> {
@@ -63,16 +60,19 @@ export class AppService {
     console.error("Error ID: " + errorId);
 
     if (error.type && error.status)
-      AppService.handleHttpReponseError(errorId, error);
+      return AppService.handleHttpReponseError(errorId, error);
 
     if (error.info)
-      AppService.handleAppError(errorId, error);
+      return AppService.handleAppError(errorId, error);
 
-    throw new AppError(errorId);
+    return Promise.reject(new AppError(errorId));
   }
 
+  /**
+   * Handles HTTP error like this: {"status":504,"ok":false,"statusText":"Gateway Timeout","headers":{"Access-Control-Allow-Origin":["*"],"Date":["Thu"," 25 May 2017 11:50:57 GMT"],"Connection":["keep-alive"],"X-Powered-By":["Express"],"Transfer-Encoding":["chunked"]},"type":2,"url":"http://localhost:4200/api/applications/","_body":"Error occured while trying to proxy to: localhost:4200/api/applications/"}
+   */
   static handleHttpReponseError(errorId: string, error: Response) {
-    let m ="";
+    let m = "";
     if (error.url)
       m += error.url + ", ";
     if (error.status + ", ")
@@ -81,11 +81,17 @@ export class AppService {
       m += error.statusText + ", ";
     m = m.substring(0, m.length - 2);
     let body = error.text();
-    throw new AppError(errorId, m, body);
+    return Promise.reject(new AppError(errorId, m, body));
   }
 
-  static handleAppError(errorId: string, error: AppResponseData) {
-    throw new AppError(errorId, error.info, error.data);
+  //ToDo: maybe this is obsolete, errors move on the wire as HTTP errors not app errors
+  static handleAppError(errorId: string, error: any) {
+    let details = "";
+    if (typeof error.data === 'string')
+      details =  error.data;
+    else
+      details = JSON.stringify(error.data);
+    return Promise.reject(new AppError(errorId, error.info, details));
   }
 
   static generateErrorId() {

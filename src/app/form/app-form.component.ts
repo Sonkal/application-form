@@ -57,6 +57,7 @@ export class AppFormComponent implements OnInit {
   onSubmit(){
     console.log("Submit");
     this.model.setPersonalId(this.personalIdGroup.before,this.personalIdGroup.after);
+    console.log(JSON.stringify(this.model,null,2));
     this.appService.createApplication(this.model).then((data)=>{
       console.log("Saved:"+data);
       this.router.navigate(["success"]);
