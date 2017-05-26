@@ -24,7 +24,10 @@ export class AppErrorHandler implements ErrorHandler, OnInit {
     } else {
       console.error("Missing logic for error:"+error);
       console.error(error);
+      this.es.error = new AppError("Internall Error", );
     }
+    if (router.isActive("error",false))
+      return;
     //Without this hack, it does not work :-(
     setTimeout(() => {
       router.navigate(["error"]);

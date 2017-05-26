@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import 'rxjs/add/operator/switchMap';
 import {ErrorService} from "./error.service";
 
@@ -14,10 +14,14 @@ export class ErrorComponent implements OnInit {
   errorMessage: string;
   errorDetail: string;
 
-  constructor(private route: ActivatedRoute, private es:ErrorService) {
+  constructor(private router: Router, private es:ErrorService) {
   }
 
   ngOnInit() {
+    if (!this.es.error){
+      this.router.navigate(["/"]);
+      return;
+    }
     this.errorId = this.es.error.id;
     this.errorMessage = this.es.error.message;
     this.errorDetail = this.es.error.details;
