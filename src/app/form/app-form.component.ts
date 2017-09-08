@@ -18,7 +18,7 @@ class AppModel implements Application {
   phoneMother: string;
   phoneFather: string;
   subscribe: boolean;
-  id?: string | number;
+  id?: string;
 
   constructor(object: any) {
     Object.assign(this, object);

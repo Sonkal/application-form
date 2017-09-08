@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import "rxjs/add/operator/toPromise";
 import {Application} from "@sonkal/application-type";
+import {environment} from "../../environments/environment";
 
 //ToDO: this should be part of service or commons
 export interface AppResponse {
@@ -12,14 +13,13 @@ export interface AppResponse {
 @Injectable()
 export class AppService {
 
-  //ToDo: change this to http://application-service:3000/api/applications
-  serviceUrl = "http://localhost:4200/api/applications";
+  static serviceUrl = environment.appServiceUrl;
 
   constructor(private http: Http) {
   }
 
   createApplication(app: Application): Promise<string> {
-    const url = `${this.serviceUrl}/`;
+    const url = `${AppService.serviceUrl}/`;
     let reqId = AppError.generateId();
     console.log("Request " + reqId + " starting ....");
     return this.http.post(url, app).toPromise()
@@ -37,7 +37,7 @@ export class AppService {
   }
 
   listApplications(): Promise<Application[]> {
-    const url = `${this.serviceUrl}/`;
+    const url = `${AppService.serviceUrl}/`;
     return this.http.get(url)
       .toPromise()
       .then((response) => {
